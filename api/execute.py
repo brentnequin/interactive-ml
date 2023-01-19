@@ -28,8 +28,8 @@ class KMeans(Resource):
             model = kmeans.KMeans()
             model.fit(X)
             result = {
-                "centeroids": [dict(x=x, y=y) for [x, y] in model.centeroids],
-                "points": [dict(x=x, y=y, centeroid=label) for [x, y, label] in np.column_stack([X, model.labels])]
+                "centeroids": [dict(x=x, y=y, id=id) for id, [x, y] in enumerate(model.centeroids)],
+                "points": [dict(x=x, y=y, centeroid_id=label) for [x, y, label] in np.column_stack([X, model.labels])]
             }
             response = Response(json.dumps(result, cls=NpEncoder), mimetype='application/json')
 
