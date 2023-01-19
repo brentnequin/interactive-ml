@@ -6,7 +6,7 @@ import json
 
 from cwaft.algorithms import kmeans
 
-from util.json import NpEncoder
+from .util.json import NpEncoder
 
 # from sklearn import cluster
 # from sklearn_extra.cluster import KMedoids
