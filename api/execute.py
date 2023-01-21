@@ -7,14 +7,23 @@ import json
 from cwaft.algorithms import kmeans
 
 from .util.json import NpEncoder
+from .shared import auth
 
 # from sklearn import cluster
 # from sklearn_extra.cluster import KMedoids
+
+import os
+from dotenv import load_dotenv
+
+dotenv_path = os.path.join(os.getcwd(), '.env.local')
+load_dotenv(dotenv_path)
 
 app = Flask(__name__)
 api = Api(app)
 
 class KMeans(Resource):
+
+    @auth.api_key_required
     def post(self):
 
         data = request.get_json(silent=True)
