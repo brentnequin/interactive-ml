@@ -1,6 +1,8 @@
 {
     "rewrites": [{ "source": "/api/execute/:algorithm", "destination": "/api/execute.py" }],
     "functions": {
-        "api/execute.py": {}
+        "api/execute.py": {
+            "memory": 1024
+        }
     }
 }
