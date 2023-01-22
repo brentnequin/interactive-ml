@@ -1,0 +1,5 @@
+flask
+flask-restful
+json-schema
+cwaft
+python-dotenv

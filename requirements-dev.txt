@@ -1,5 +1,5 @@
 flask
 flask-restful
-flask-json-schema
-cwaft
+jsonschema
+cwaft -e ../cwaft
 python-dotenv
