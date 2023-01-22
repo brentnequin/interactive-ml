@@ -22,7 +22,11 @@ function refreshPlot() {
     mode: 'markers',
     type: 'scatter'
   }], {
-    margin: { t: 0 }
+    margin: { t: 0 },
+    xaxis: { fixedrange: true },
+    yaxis: { fixedrange: true }
+  }, {
+    displayModeBar: false
   });
 }
 

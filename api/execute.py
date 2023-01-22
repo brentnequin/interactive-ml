@@ -1,16 +1,16 @@
+import json
+
 from flask import Flask, jsonify, Response, request
 from flask_restful import Resource, Api
 
+
+from jsonschema import validate, ValidationError
 import numpy as np
-import json
 
 from cwaft.algorithms import kmeans
 
 from .util.json import NpEncoder
 from .shared import auth
-
-# from sklearn import cluster
-# from sklearn_extra.cluster import KMedoids
 
 import os
 from dotenv import load_dotenv
@@ -21,6 +21,34 @@ load_dotenv(dotenv_path)
 app = Flask(__name__)
 api = Api(app)
 
+class JsonSchema:
+
+    kmeans = {
+        'type': 'object',
+        'required': ['k', 'points'],
+        'properties': {
+            'k': {
+                'type': 'integer'
+            },
+            'points': {
+                'type': 'array',
+                'items': {
+                    'type': 'object',
+                    'required': ['x', 'y'],
+                    'properties': {
+                        'x': {
+                            'type': 'number'
+                        },
+                        'y': {
+                            'type': 'number'
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
 class KMeans(Resource):
 
     @auth.api_key_required
@@ -28,7 +56,11 @@ class KMeans(Resource):
 
         data = request.get_json(silent=True)
 
-        if not data:
+        try:
+            validate(instance=data, schema=JsonSchema.kmeans)
+        except ValidationError as e:
+            return Response(json.dumps({ 'message': e.message }), status=400, mimetype='application/json')
+        except Exception as e:
             return Response(json.dumps({ 'message': 'Missing or incorrect payload' }), status=400, mimetype='application/json')
 
         try:
@@ -42,9 +74,8 @@ class KMeans(Resource):
             }
             response = Response(json.dumps(result, cls=NpEncoder), mimetype='application/json')
 
-        except KeyError as e:
-
-            response = Response(json.dumps({ 'message': f"Invalid data in payload: {str(e)}" }), status=500, mimetype='application/json')
+        except Exception as e:
+            response = Response(json.dumps({ 'message': f"Something went wrong: {str(e)}" }), status=500, mimetype='application/json')
         
         return response
     
