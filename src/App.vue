@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import Plotly from 'plotly.js-dist'
+import axios from "axios";
+
+const api = axios.create({
+  baseURL: process.env.VUE_APP_API_BASE_URL + '/api/',
+  headers: { 'x-api-key': process.env.VUE_APP_API_KEY }
+})
 
 const plot = ref<HTMLDivElement>()
 
@@ -16,6 +22,26 @@ let points = [
   { x: 9, y: 9 },
 ]
 
+const plot_layout = {
+  margin: { t: 20, l: 20, r: 20, b: 20 },
+  xaxis: {
+    fixedrange: true,
+    range: [xmin, xmax],
+    showticklabels: false,
+    zeroline: false
+  },
+  yaxis: { 
+    fixedrange: true,
+    range: [ymin, ymax],
+    showticklabels: false,
+    zeroline: false
+  }
+}
+
+const plot_config = {
+  displayModeBar: false
+}
+
 onMounted(()=>{    
   refreshPlot()
 })
@@ -26,23 +52,7 @@ function refreshPlot() {
     y: points.map((({y}) => y)),
     mode: 'markers',
     type: 'scatter'
-  }], {
-    margin: { t: 20, l: 20, r: 20, b: 20 },
-    xaxis: {
-      fixedrange: true,
-      range: [xmin, xmax],
-      showticklabels: false,
-      zeroline: false
-    },
-    yaxis: { 
-      fixedrange: true,
-      range: [ymin, ymax],
-      showticklabels: false,
-      zeroline: false
-    }
-  }, {
-    displayModeBar: false
-  });
+  }], plot_layout, plot_config);
 }
 
 function addPoint(event: MouseEvent) {
@@ -62,6 +72,16 @@ function addPoint(event: MouseEvent) {
 }
 
 async function run() {
+  try {
+    const response = await api.post('execute/kmeans', {
+      'points': points,
+      'k': 2
+    }
+    )
+    console.log(response.data)
+  } catch (error) {
+    console.log(error)
+  }
 }
 </script>
 

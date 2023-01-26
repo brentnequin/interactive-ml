@@ -2,7 +2,7 @@ import json
 
 from flask import Flask, jsonify, Response, request
 from flask_restful import Resource, Api
-
+from flask_cors import CORS, cross_origin
 
 from jsonschema import validate, ValidationError
 import numpy as np
@@ -20,6 +20,8 @@ load_dotenv(dotenv_path)
 
 app = Flask(__name__)
 api = Api(app)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 class JsonSchema:
 
@@ -52,6 +54,7 @@ class JsonSchema:
 class KMeans(Resource):
 
     @auth.api_key_required
+    @cross_origin()
     def post(self):
 
         data = request.get_json(silent=True)

@@ -9,6 +9,7 @@ flask-restful = "*"
 jsonschema = "*"
 python-dotenv = "*"
 cwaft = "*"
+flask-cors = "*"
 
 [dev-packages]
 cwaft = {editable = true, path = "./../cwaft"}
