@@ -12,7 +12,7 @@ def api_key_required(func):
         if not api_key:
             return Response(json.dumps({'message': 'Missing header [x-api-key]'}), status=401, mimetype='application/json')
 
-        if api_key != os.environ['API_KEY']:
+        if api_key != os.environ['VUE_APP_API_KEY']:
             return Response(json.dumps({'message': 'Invalid api key'}), status=401, mimetype='application/json')
 
         return func(*args, **kwargs)

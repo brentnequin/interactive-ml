@@ -4,16 +4,14 @@ import Plotly from 'plotly.js-dist'
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: process.env.VUE_APP_API_BASE_URL + '/api/',
+  baseURL: process.env.VUE_APP_API_BASE_URL,
   headers: { 'x-api-key': process.env.VUE_APP_API_KEY }
 })
 
 const plot = ref<HTMLDivElement>()
 
-const xmax = 10
-const xmin = 0
-const ymax = 10
-const ymin = 0
+const xmax = 10, xmin = 0
+const ymax = 10, ymin = 0
 
 let points = [
   { x: 1, y: 1 },
@@ -73,11 +71,7 @@ function addPoint(event: MouseEvent) {
 
 async function run() {
   try {
-    const response = await api.post('execute/kmeans', {
-      'points': points,
-      'k': 2
-    }
-    )
+    const response = await api.post('execute/kmeans', {'points': points, 'k': 2})
     console.log(response.data)
   } catch (error) {
     console.log(error)
