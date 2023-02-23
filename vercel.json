@@ -1,7 +1,7 @@
 {
     "rewrites": [
         { "source": "/api", "destination": "/api/__init__.py" },
-        { "source": "/api/*", "destination": "/api/__init__.py" }
+        { "source": "/api/:path*", "destination": "/api/__init__.py" }
     ],
     "functions": {
         "api/__init__.py": {
