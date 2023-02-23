@@ -1,3 +1,6 @@
 {
-    "rewrites": [{ "source": "/api/execute/:algorithm", "destination": "/api/execute.py" }]
+    "rewrites": [
+        { "source": "/api", "destination": "/api/__init__.py" },
+        { "source": "/api/*", "destination": "/api/__init__.py" }
+    ]
 }
