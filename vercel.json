@@ -2,5 +2,11 @@
     "rewrites": [
         { "source": "/api", "destination": "/api/__init__.py" },
         { "source": "/api/*", "destination": "/api/__init__.py" }
-    ]
+    ],
+    "functions": {
+        "api/__init__.py": {
+            "memory": 1024,
+            "maxDuration": 10
+          }
+    }
 }
