@@ -17,7 +17,7 @@ class APIStatus(Resource):
 
     @auth.api_key_required
     def get(self):
-        return Response(json.dumps({ 'message': 'ok' }), mimetype='application/json')
+        return Response(json.dumps({'message': 'ok'}), mimetype='application/json')
 
 
 class KMeans(Resource):
@@ -29,15 +29,15 @@ class KMeans(Resource):
         data = request.get_json(silent=True)
 
         if not data:
-            return Response(json.dumps({ 'message': 'Missing request body'}), status=400, mimetype='application/json')
+            return Response(json.dumps({'message': 'Missing request body'}), status=400, mimetype='application/json')
 
         try:
-            schema = read_json_file('api/schema/kmeans.json')
+            schema = read_json_file('src/api/schema/kmeans.json')
             validate(instance=data, schema=schema)
         except ValidationError as e:
-            return Response(json.dumps({ 'message': e.message }), status=400, mimetype='application/json')
+            return Response(json.dumps({'message': e.message}), status=400, mimetype='application/json')
         except Exception as e:
-            return Response(json.dumps({ 'message': f'Something went wrong: {str(e)}' }), status=400, mimetype='application/json')
+            return Response(json.dumps({'message': f'Something went wrong: {str(e)}'}), status=400, mimetype='application/json')
 
         try:
             X = np.array([(point['x'], point['y']) for point in data['points']])
@@ -50,6 +50,6 @@ class KMeans(Resource):
             response = Response(json.dumps(result, cls=NpEncoder), mimetype='application/json')
 
         except Exception as e:
-            return Response(json.dumps({ 'message': f'Something went wrong: {str(e)}' }), status=500, mimetype='application/json')
+            return Response(json.dumps({'message': f'Something went wrong: {str(e)}'}), status=500, mimetype='application/json')
         
         return response

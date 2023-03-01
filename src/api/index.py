@@ -17,6 +17,3 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 api.add_resource(APIStatus, '/api')
 api.add_resource(KMeans, '/api/execute/kmeans')
-
-if __name__ == '__main__':
-    app.run(debug=True)
