@@ -3,12 +3,8 @@ from flask_restful import Api
 from flask_cors import CORS
 
 import os
-from dotenv import load_dotenv
 
 from src.api.resources import APIStatus, KMeans
-
-dotenv_path = os.path.join(os.getcwd(), '.env.local')
-load_dotenv(dotenv_path)
 
 app = Flask(__name__)
 api = Api(app)
@@ -20,4 +16,10 @@ api.add_resource(KMeans, '/api/execute/kmeans')
 
 
 if __name__ == '__main__':
+
+    from dotenv import load_dotenv
+
+    dotenv_path = os.path.join(os.getcwd(), '.env.local')
+    load_dotenv(dotenv_path)
+
     app.run(debug=True)
