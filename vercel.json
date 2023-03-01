@@ -1,6 +1,6 @@
 {
     "rewrites": [
         { "source": "/api", "destination": "/index/api.py" },
-        { "source": "/api/execute/kmeans", "destination": "/index/api.py" }
+        { "source": "/api/execute/:algorithm", "destination": "/index/api.py" }
     ]
 }
