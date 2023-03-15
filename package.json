@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "prisma build && vue-cli-service build",
     "api:dev": "flask --app api run"
   },
   "dependencies": {
